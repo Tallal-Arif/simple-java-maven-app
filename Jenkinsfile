@@ -24,15 +24,13 @@ pipeline {
         stage('Deploy to Tomcat') {
             steps {
                 echo 'Deploying to Tomcat...'
-                deploy adapters: [
-                    tomcat9(
-                        credentialsId: 'tomcat-credentials',
-                        path: '',
-                        url: 'http://localhost:8080'
-                    )
-                ],
-                contextPath: 'myApp',
-                war: 'target/*.jar'
+                deploy adapters: [tomcat9(
+                credentialsId: 'your-credential-id',
+                path: '',
+                url: 'http://localhost:8081'
+                )],
+            contextPath: 'myApp',
+            war: 'target/*.war'  
             }
         }
 
