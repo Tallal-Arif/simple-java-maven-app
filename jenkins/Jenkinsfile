@@ -1,16 +1,22 @@
 pipeline {
     agent any
-    options {
-        skipStagesAfterUnstable()
+    tools {
+        maven 'Maven'
     }
     stages {
         stage('Build') {
             steps {
+                echo 'Student Name: Muhammad Tallal Arif'
+                echo 'Roll No: YOUR_ROLL_NUMBER'
+                echo 'Building the project...'
                 sh 'mvn -B -DskipTests clean package'
             }
         }
         stage('Test') {
             steps {
+                echo 'Student Name: Muhammad Tallal Arif'
+                echo 'Roll No: YOUR_ROLL_NUMBER'
+                echo 'Running tests...'
                 sh 'mvn test'
             }
             post {
@@ -19,10 +25,27 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') { 
+        stage('Deploy') {
             steps {
-                sh './jenkins/scripts/deliver.sh' 
+                echo 'Student Name: Muhammad Tallal Arif'
+                echo 'Roll No: YOUR_ROLL_NUMBER'
+                echo 'Deploying to Tomcat...'
+                deploy adapters: [tomcat9(
+                    credentialsId: 'tomcat-credentials',
+                    path: '',
+                    url: 'http://localhost:8081'
+                )],
+                contextPath: 'myApp',
+                war: 'target/*.war'
             }
+        }
+    }
+    post {
+        success {
+            echo 'Muhammad Tallal Arif - Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Muhammad Tallal Arif - Pipeline failed!'
         }
     }
 }
